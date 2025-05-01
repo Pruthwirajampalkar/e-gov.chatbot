@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <style>
+        body {
+            background-image: linear-gradient(to right, rgba(240, 253, 244, 0.7), rgba(21, 128, 61, 0.7)), url("What Foreign Investors Should Know When Setting up company in Vietnam in 2022_.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col items-center justify-center h-screen dark:bg-gray-900 dark:text-white">
+    <button onclick="document.documentElement.classList.toggle('dark')" class="absolute top-4 right-4 text-xl text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white">
+        🌙
+    </button>
+
+    <form action="login.php" method="POST" class="bg-white dark:bg-gray-900 dark:text-white p-8 rounded-xl shadow-xl w-96 border-t-8 border-green-500">
+        <h2 class="text-2xl font-bold mb-6 text-center text-green-600 dark:text-green-400">Login</h2>
+
+        <!-- Username Field -->
+        <div class="mb-4">
+            <label class="block mb-1 text-sm text-gray-600 dark:text-gray-300">Username</label>
+            <input type="text" name="username" placeholder="Username" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 bg-white dark:bg-gray-800 dark:text-white">
+        </div>
+
+        <!-- Password Field -->
+        <div class="mb-4">
+            <label class="block mb-1 text-sm text-gray-600 dark:text-gray-300">Password</label>
+            <div class="relative">
+                <input type="password" name="password" id="password" placeholder="Password" required oninput="checkStrength(this.value)" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 bg-white dark:bg-gray-800 dark:text-white">
+                <button type="button" onclick="togglePassword()" class="absolute right-2 top-2 text-sm text-gray-500 dark:text-gray-300">Show</button>
+            </div>
+            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded">
+                <div id="strengthBar" class="h-2 rounded transition-all"></div>
+            </div>
+            <p id="strengthText" class="text-xs text-gray-600 dark:text-gray-400 mt-1"></p>
+        </div>
+
+        <!-- Forgot password -->
+        <div class="mb-4 text-right">
+            <a href="#" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">Forgot Password?</a>
+        </div>
+
+        <!-- Tips -->
+        <div class="mb-4 text-left">
+            <button type="button" onclick="toggleTips()" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">Helpful Tips</button>
+            <div id="tipsSection" class="mt-2 text-sm text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-gray-700 border border-blue-300 dark:border-gray-600 p-2 rounded hidden">
+                <ul class="list-disc pl-4">
+                    <li>Use at least 6 characters.</li>
+                    <li>Include uppercase and lowercase letters.</li>
+                    <li>Add numbers and special characters for strong passwords.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Terms Checkbox -->
+        <div class="mb-4 text-sm text-gray-700 dark:text-gray-300">
+            <label class="inline-flex items-center">
+                <input type="checkbox" class="form-checkbox text-green-600 dark:bg-gray-800" required>
+                <span class="ml-2">I agree to the <a href="terms.html" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank">Terms & Conditions</a></span>
+            </label>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="bg-green-500 text-white font-semibold px-4 py-2 w-full rounded-lg hover:bg-green-600 transition">Login</button>
+
+        <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">Don't have an account?
+            <a href="register.html" class="text-green-600 dark:text-green-400 hover:underline">Register</a>
+        </p>
+    </form>
+
+    <script>
+        function togglePassword() {
+            const password = document.getElementById("password");
+            password.type = password.type === "password" ? "text" : "password";
+        }
+
+        function checkStrength(val) {
+            const strengthBar = document.getElementById("strengthBar");
+            const strengthText = document.getElementById("strengthText");
+
+            let strength = 0;
+            if (val.length >= 6) strength++;
+            if (/[A-Z]/.test(val)) strength++;
+            if (/[0-9]/.test(val)) strength++;
+            if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+            strengthBar.style.width = (strength * 25) + "%";
+            strengthBar.className = "h-2 rounded transition-all";
+
+            if (strength <= 1) {
+                strengthBar.classList.add("bg-red-500");
+                strengthText.textContent = "Weak password";
+            } else if (strength === 2 || strength === 3) {
+                strengthBar.classList.add("bg-yellow-500");
+                strengthText.textContent = "Medium password";
+            } else {
+                strengthBar.classList.add("bg-green-500");
+                strengthText.textContent = "Strong password";
+            }
+        }
+
+        function toggleTips() {
+            const tips = document.getElementById("tipsSection");
+            tips.classList.toggle("hidden");
+        }
+    </script>
+</body>
+
+</html>

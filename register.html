@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@heroicons/vue@2.0.16/dist/heroicons.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to right, #ebf8ff, #1e3a8a);
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center h-screen flex-col">
+    <form action="register.php" method="POST" class="bg-white p-8 rounded-xl shadow-xl w-96 border-t-8 border-blue-500 relative">
+        <h2 class="text-2xl font-bold mb-6 text-center text-blue-700">Create Your Account</h2>
+
+        <!-- Username -->
+        <label class="block mb-2 text-sm text-gray-600">Username</label>
+        <div class="relative mb-4">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A10.966 10.966 0 0112 15c2.21 0 4.26.636 5.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </span>
+            <input type="text" name="username" placeholder="Enter your username" class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+        </div>
+
+        <!-- Password -->
+        <label class="block mb-2 text-sm text-gray-600">Password</label>
+        <div class="relative mb-2">
+            <input type="password" id="password" name="password" placeholder="Enter your password" class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required oninput="checkStrength(this.value)">
+            <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm text-gray-600">
+                👁️
+            </button>
+        </div>
+
+        <!-- Password Strength Meter -->
+        <div class="mb-4">
+            <div class="h-2 bg-gray-200 rounded">
+                <div id="strengthBar" class="h-2 rounded bg-red-500 w-0 transition-all"></div>
+            </div>
+            <p id="strengthText" class="text-xs text-gray-500 mt-1">Enter a strong password</p>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 transition text-white font-semibold px-4 py-2 w-full rounded-lg">Register</button>
+
+        <p class="mt-4 text-sm text-center text-gray-600">Already have an account? <a href="login.html" class="text-blue-600 hover:underline">Login here</a></p>
+    </form>
+
+    <!-- Contact Info -->
+    <div class="mt-6 text-center text-sm text-white">
+        <p>Contact Us: <a href="mailto:support@egovchatbot.com" class="text-blue-200 hover:underline">support@egovchatbot.com</a></p>
+        <p>Phone: <span class="text-white font-semibold">+91 98765 43210</span></p>
+    </div>
+
+    <!-- Tips Toggle Button -->
+    <button onclick="toggleTips()" class="mt-6 text-white underline text-sm hover:text-blue-200">Show/Hide Helpful Tips</button>
+
+    <!-- Suggestions Section -->
+    <div id="tipsSection" class="mt-2 w-96 bg-white p-4 rounded-xl shadow-lg text-sm text-gray-700 hidden">
+        <h3 class="font-semibold text-blue-600 mb-2">Helpful Tips:</h3>
+        <ul class="list-disc list-inside space-y-1">
+            <li>Use a strong password with symbols and numbers.</li>
+            <li>Don’t share your login details with others.</li>
+            <li>Keep your profile up to date.</li>
+            <li>Use the chatbot to ask about government services like Aadhaar, PAN, voter ID, etc.</li>
+        </ul>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function togglePassword() {
+            const password = document.getElementById("password");
+            password.type = password.type === "password" ? "text" : "password";
+        }
+
+        function toggleTips() {
+            const tips = document.getElementById("tipsSection");
+            tips.classList.toggle("hidden");
+        }
+
+        function checkStrength(val) {
+            const strengthBar = document.getElementById("strengthBar");
+            const strengthText = document.getElementById("strengthText");
+
+            let strength = 0;
+            if (val.length >= 6) strength++;
+            if (/[A-Z]/.test(val)) strength++;
+            if (/[0-9]/.test(val)) strength++;
+            if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+            strengthBar.style.width = (strength * 25) + "%";
+            strengthBar.className = "h-2 rounded transition-all";
+
+            if (strength <= 1) {
+                strengthBar.classList.add("bg-red-500");
+                strengthText.textContent = "Weak password";
+            } else if (strength === 2 || strength === 3) {
+                strengthBar.classList.add("bg-yellow-500");
+                strengthText.textContent = "Medium password";
+            } else {
+                strengthBar.classList.add("bg-green-500");
+                strengthText.textContent = "Strong password";
+            }
+        }
+    </script>
+</body>
+
+</html>
